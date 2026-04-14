@@ -1,47 +1,54 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { ref } from 'vue';
+import ProdutoChild from './components/ProdutoChild.vue';
+
+const produtos = ref([
+{ id: 1, nome: 'Ração Premium Cães', preco: 120, categoria: 'Alimentos' },
+{ id: 2, nome: 'Ração Gatos Castrados', preco: 95, categoria: 'Alimentos' },
+{ id: 3, nome: 'Petisco Natural', preco: 18, categoria: 'Alimentos' },
+{ id: 4, nome: 'Brinquedo Bola', preco: 22, categoria: 'Brinquedos' },
+{ id: 5, nome: 'Mordedor de Corda', preco: 30, categoria: 'Brinquedos' },
+{ id: 6, nome: 'Shampoo Pet', preco: 35, categoria: 'Higiene' },
+{ id: 7, nome: 'Tapete Higiênico', preco: 42, categoria: 'Higiene' },
+{ id: 8, nome: 'Coleira Azul', preco: 28, categoria: 'Acessórios' },
+{ id: 9, nome: 'Guia de Passeio', preco: 40, categoria: 'Acessórios' }
+])
+
+const preco = ref(0); /* apos o v-model */
+const posicaoProduto = ref(-1);
+const alterando = ref(false)
+
+function corrigirPreco(idProduto, precoProduto) {
+preco.value = precoProduto;
+posicaoProduto.value = produtos.value.findIndex(p => p.id === idProduto)
+alterando.value = true;
+}
+
+function salvarPreco(){
+produtos.value[posicaoProduto.value].preco = preco.value;
+alterando.value = false;
+}
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+  <h1>Catálogo de Produtos</h1>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class="container">
+    <div>
+      <ul>
+        <ProdutoChild v-for="produto in produtos" :key="produto.id" :nome="produto.nome" :preco="produto.preco" :categoria="produto.categoria">
+          <button @click.prevent="corrigirPreco(produto.id, produto.preco)">Corrigir preço</button> 
+        </ProdutoChild>
+      </ul>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <div v-show="alterando">
+      <label>Preço</label>
+      <input type="text" v-model="preco">
+      <button @click.prevent="salvarPreco()">Salvar</button>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
