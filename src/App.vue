@@ -1,22 +1,14 @@
 <script setup>
 import { ref } from 'vue';
 import ProdutoChild from './components/ProdutoChild.vue';
+import SalvarChild from './components/SalvarChild.vue';
+import { listaProdutos } from './data/produtos';
+const produtos = ref(listaProdutos);
 
-const produtos = ref([
-{ id: 1, nome: 'Ração Premium Cães', preco: 120, categoria: 'Alimentos' },
-{ id: 2, nome: 'Ração Gatos Castrados', preco: 95, categoria: 'Alimentos' },
-{ id: 3, nome: 'Petisco Natural', preco: 18, categoria: 'Alimentos' },
-{ id: 4, nome: 'Brinquedo Bola', preco: 22, categoria: 'Brinquedos' },
-{ id: 5, nome: 'Mordedor de Corda', preco: 30, categoria: 'Brinquedos' },
-{ id: 6, nome: 'Shampoo Pet', preco: 35, categoria: 'Higiene' },
-{ id: 7, nome: 'Tapete Higiênico', preco: 42, categoria: 'Higiene' },
-{ id: 8, nome: 'Coleira Azul', preco: 28, categoria: 'Acessórios' },
-{ id: 9, nome: 'Guia de Passeio', preco: 40, categoria: 'Acessórios' }
-])
 
 const preco = ref(0); /* apos o v-model */
 const posicaoProduto = ref(-1);
-const alterando = ref(false)
+const alterando = ref(false);
 
 function corrigirPreco(idProduto, precoProduto) {
 preco.value = precoProduto;
@@ -37,15 +29,17 @@ alterando.value = false;
   <div class="container">
     <div>
       <ul>
-        <ProdutoChild v-for="produto in produtos" :key="produto.id" :nome="produto.nome" :preco="produto.preco" :categoria="produto.categoria">
-          <button @click.prevent="corrigirPreco(produto.id, produto.preco)">Corrigir preço</button> 
+        <ProdutoChild v-for="produto in produtos" :key="produto.id" :nome="produto.nome" :preco="produto.preco" :categoria="produto.categoria" :id="produto.id" @corrigirpreco="corrigirPreco">
         </ProdutoChild>
       </ul>
     </div>
     <div v-show="alterando">
       <label>Preço</label>
       <input type="text" v-model="preco">
-      <button @click.prevent="salvarPreco()">Salvar</button>
+
+      <SalvarChild @salvarpreco="salvarPreco">
+        Salvar
+      </SalvarChild>
     </div>
   </div>
 </template>
