@@ -3,13 +3,25 @@
 
 <template>
     <header>
-        <router-link to="/">Home</router-link>
-        <router-link to="/alimentos">Alimentos</router-link>
-        <router-link to="/brinquedos">Brinquedos</router-link>
-        <router-link to="/higiene">Higiene</router-link>
-        <router-link to="/acessorios">Acessórios</router-link>
+        <section>
+            <h1>Catálogo de Produtos</h1>
+
+            <p>
+                Bem-vindo ao catálogo de produtos
+            </p>
+
+            <p>
+                Use o menu superior para visualizar os produtos por categoria: Acessórios, alimentos, brinquedos e higiene
+            </p>
+        </section>
     </header>
 </template>
 
 <style scoped>
+section{
+    padding: 24px;
+}
+h1{
+    margin-bottom: 16px;
+}
 </style>
